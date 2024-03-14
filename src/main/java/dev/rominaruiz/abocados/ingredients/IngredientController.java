@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import io.micrometer.common.lang.NonNull;
 
 @Controller
 @RequestMapping(path = "/api/v1/ingredients")
@@ -31,7 +30,7 @@ public class IngredientController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Ingredient> show(@NonNull @PathVariable("id") Long id) throws Exception {
+    public ResponseEntity<Ingredient> show(@PathVariable("id") Long id) throws Exception {
         Ingredient ingredient = service.getById(id);
         return ResponseEntity.ok(ingredient);
     }

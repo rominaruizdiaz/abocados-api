@@ -39,6 +39,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, endpoint + "/ingredients").permitAll()
                         .requestMatchers(HttpMethod.PUT, endpoint + "/ingredients/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, endpoint + "/ingredients/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, endpoint + "/categories").permitAll()
                         // .requestMatchers(HttpMethod.POST, endpoint + "/images/**").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())

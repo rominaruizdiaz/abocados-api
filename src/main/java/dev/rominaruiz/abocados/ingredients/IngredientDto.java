@@ -3,15 +3,12 @@ package dev.rominaruiz.abocados.ingredients;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class IngredientDto {
 
     private Long id;
@@ -28,5 +25,8 @@ public class IngredientDto {
     private Double fiber;
     private Double protein;
     private Double potasio;
-
+    private String categoryName;
+    public String getCategoryName() {
+        return categoryName;
+    }
 }

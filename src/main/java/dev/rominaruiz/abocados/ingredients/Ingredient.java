@@ -1,20 +1,19 @@
 package dev.rominaruiz.abocados.ingredients;
 
+import dev.rominaruiz.abocados.categories.Category;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-// import jakarta.persistence.JoinColumn;
-// import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-// import dev.rominaruiz.abocados.categories.Category;
 
 @Entity
 @Table(name = "ingredients")
@@ -72,8 +71,8 @@ public class Ingredient {
     @Column(name = "potasio")
     private Double potasio;
 
-    /* @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "id_category")
-    private Category category; */
+    @ManyToOne
+    @JoinColumn(name = "category_name", referencedColumnName = "name")
+    private Category category;
 
 }
