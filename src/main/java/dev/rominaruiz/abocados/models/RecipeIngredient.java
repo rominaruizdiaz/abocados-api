@@ -1,4 +1,4 @@
-package dev.rominaruiz.abocados.models;
+/* package dev.rominaruiz.abocados.models;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -23,15 +23,15 @@ public class RecipeIngredient {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id")
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "recipe_id", referencedColumnName = "id")
+    @JoinColumn(name = "recipe_id", referencedColumnName = "id_recipe")
     private Recipe recipe;
 
     @ManyToOne
-    @JoinColumn(name = "ingredient_id", referencedColumnName = "id")
+    @JoinColumn(name = "ingredient_id", referencedColumnName = "id_ingredient")
     private Ingredient ingredient;
 
     @Column(name = "weight")
@@ -39,6 +39,10 @@ public class RecipeIngredient {
 
     @Column(name = "unit", length = 60)
     private String unit;
+    
+
+    public RecipeIngredient() {
+    }
 
     public RecipeIngredient(UUID id, Recipe recipe, Ingredient ingredient, BigDecimal weight, String unit) {
         this.id = id;
@@ -48,5 +52,4 @@ public class RecipeIngredient {
         this.unit = unit;
     }
 
-    
-}
+} */

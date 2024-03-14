@@ -1,4 +1,4 @@
-package dev.rominaruiz.abocados.recipes;
+/* package dev.rominaruiz.abocados.recipes;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -25,7 +25,7 @@ import lombok.Setter;
 public class Recipe {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id_recipe")
     private UUID id;
 
     @Column(name = "name", length = 60)
@@ -77,11 +77,15 @@ public class Recipe {
     private BigDecimal potasio;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id_user")
     private User user;
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RecipeIngredient> recipeIngredients;
+
+    
+    public Recipe() {
+    }
 
     public Recipe(UUID id, String name, String imageUrl, String description, String steps, String preparationTime,
             BigDecimal calories, BigDecimal fats, BigDecimal saturatedFat, BigDecimal monoinsaturatedFat,
@@ -110,4 +114,6 @@ public class Recipe {
     }
 
     
+    
 }
+ */

@@ -1,4 +1,4 @@
-package dev.rominaruiz.abocados.users;
+/* package dev.rominaruiz.abocados.users;
 
 import java.util.UUID;
 
@@ -16,7 +16,7 @@ import lombok.Setter;
 public class User {
     
     @Id
-    @Column(name = "id")
+    @Column(name = "id_user")
     private UUID id;
 
     @Column(name = "username", length = 140)
@@ -28,12 +28,15 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    public User() {
+    }
+
     public User(UUID id, String username, String email, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
     }
-
     
 }
+ */
