@@ -60,6 +60,7 @@ public class IngredientService implements IGenericGetService<Ingredient>, IGener
             .carbohydrate(ingredientDto.getCarbohydrate())
             .sugar(ingredientDto.getSugar())
             .fiber(ingredientDto.getFiber())
+            .sodium(ingredientDto.getSodium())
             .protein(ingredientDto.getProtein())
             .potasio(ingredientDto.getPotasio())
             .category(category)
@@ -89,6 +90,7 @@ public class IngredientService implements IGenericGetService<Ingredient>, IGener
         ingredient.setCarbohydrate(ingredientDto.getCarbohydrate());
         ingredient.setSugar(ingredientDto.getSugar());
         ingredient.setFiber(ingredientDto.getFiber());
+        ingredient.setSodium(ingredientDto.getSodium());
         ingredient.setProtein(ingredientDto.getProtein());
         ingredient.setPotasio(ingredientDto.getPotasio());
 

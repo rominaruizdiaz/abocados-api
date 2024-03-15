@@ -24,6 +24,7 @@ public class IngredientDto {
     private Double sugar;
     private Double fiber;
     private Double protein;
+    private Double sodium;
     private Double potasio;
     private String categoryName;
     public String getCategoryName() {

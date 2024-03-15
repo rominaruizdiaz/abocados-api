@@ -21,7 +21,6 @@ public class CategoryService {
         }
         Category newCategory = Category.builder()
                 .name(categoryName)
-                .imageUrl(categoryDto.getImageUrl())
                 .build();
         return categoryRepository.save(newCategory);
     }
