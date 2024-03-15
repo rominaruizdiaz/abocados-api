@@ -73,23 +73,33 @@ public class IngredientService implements IGenericGetService<Ingredient>, IGener
 
     @Override
     public Ingredient update(IngredientDto ingredientDto, Long id) throws IngredientNotFoundException {
-        Ingredient ingredient = repository.findById(id).orElseThrow(() -> new IngredientNotFoundException("Ingredient not found with id: " + id));
+    Ingredient ingredient = repository.findById(id).orElseThrow(() -> new IngredientNotFoundException("Ingredient not found with id: " + id));
 
-        ingredient.setName(ingredientDto.getName());
-        ingredient.setWeight(ingredientDto.getWeight());
-        ingredient.setUnit(ingredientDto.getUnit());
-        ingredient.setCalories(ingredientDto.getCalories());
-        ingredient.setFats(ingredientDto.getFats());
-        ingredient.setSaturatedFat(ingredientDto.getSaturatedFat());
-        ingredient.setMonoinsaturatedFat(ingredientDto.getMonoinsaturatedFat());
-        ingredient.setPolinsaturatedFat(ingredientDto.getPolinsaturatedFat());
-        ingredient.setCarbohydrate(ingredientDto.getCarbohydrate());
-        ingredient.setSugar(ingredientDto.getSugar());
-        ingredient.setFiber(ingredientDto.getFiber());
-        ingredient.setSodium(ingredientDto.getSodium());
-        ingredient.setProtein(ingredientDto.getProtein());
-        ingredient.setPotasio(ingredientDto.getPotasio());
 
-        return repository.save(ingredient);
-    }
+    ingredient.setName(ingredientDto.getName());
+    ingredient.setWeight(ingredientDto.getWeight());
+    ingredient.setUnit(ingredientDto.getUnit());
+    ingredient.setCalories(ingredientDto.getCalories());
+    ingredient.setFats(ingredientDto.getFats());
+    ingredient.setSaturatedFat(ingredientDto.getSaturatedFat());
+    ingredient.setMonoinsaturatedFat(ingredientDto.getMonoinsaturatedFat());
+    ingredient.setPolinsaturatedFat(ingredientDto.getPolinsaturatedFat());
+    ingredient.setCarbohydrate(ingredientDto.getCarbohydrate());
+    ingredient.setSugar(ingredientDto.getSugar());
+    ingredient.setFiber(ingredientDto.getFiber());
+    ingredient.setSodium(ingredientDto.getSodium());
+    ingredient.setProtein(ingredientDto.getProtein());
+    ingredient.setPotasio(ingredientDto.getPotasio());
+
+    String categoryName = ingredientDto.getCategoryName();
+    Category category = categoryRepository.findByName(categoryName)
+        .orElseGet(() -> {
+            Category newCategory = new Category();
+            newCategory.setName(categoryName);
+            return categoryRepository.save(newCategory);
+        });
+    ingredient.setCategory(category);
+
+    return repository.save(ingredient);
+}
 }

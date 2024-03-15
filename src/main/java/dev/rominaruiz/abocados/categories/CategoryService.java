@@ -2,6 +2,7 @@ package dev.rominaruiz.abocados.categories;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -23,5 +24,11 @@ public class CategoryService {
                 .name(categoryName)
                 .build();
         return categoryRepository.save(newCategory);
+    }
+
+    public Category delete(Long id) throws CategoryNotFoundException {
+        Category categoryToDelete = categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException("Category not found with id: " + id));
+        categoryRepository.deleteById(id);
+        return categoryToDelete;
     }
 }

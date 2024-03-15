@@ -23,4 +23,10 @@ public class CategoryController {
         Category createdCategory = categoryService.createCategory(categoryDto);
         return ResponseEntity.status(201).body(createdCategory);
     }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> destroy(@PathVariable("id") Long id) throws Exception {
+        categoryService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
