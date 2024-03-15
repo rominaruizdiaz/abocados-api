@@ -35,6 +35,12 @@ public class IngredientController {
         return ResponseEntity.ok(ingredient);
     }
 
+    @GetMapping(path = "/name/{name}")
+    public ResponseEntity<Ingredient> showByName(@PathVariable("name") String name) throws Exception {
+        Ingredient ingredient = service.getByName(name).orElseThrow(() -> new IngredientNotFoundException("Ingredient not found with name: " + name));
+        return ResponseEntity.ok(ingredient);
+    }
+
     @PostMapping(path = "")
     public ResponseEntity<Ingredient> store(@RequestBody IngredientDto ingredientDto) throws Exception {
         Ingredient ingredient = service.save(ingredientDto);
