@@ -1,4 +1,4 @@
-package dev.rominaruiz.abocados.ingredients;
+package dev.rominaruiz.abocados.recipes;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class IngredientDto {
+public class RecipeDto {
 
     private String name;
-    private Double weight;
-    private String unit;
+    private String imageUrl;
+    private String description;
+    private String steps;
+    private String preparationTime;
     private Double calories;
     private Double fats;
     private Double saturatedFat;
@@ -25,8 +27,4 @@ public class IngredientDto {
     private Double protein;
     private Double sodium;
     private Double potasio;
-    private String categoryName;
-    public String getCategoryName() {
-        return categoryName;
-    }
 }

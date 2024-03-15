@@ -38,16 +38,12 @@ public class IngredientService implements IGenericGetService<Ingredient>, IGener
     public Ingredient save(IngredientDto ingredientDto) throws Exception {
         String categoryName = ingredientDto.getCategoryName();
         
-        // Buscar la categoría por nombre en la base de datos
-        Category category = categoryRepository.findByName(categoryName)
-                .orElseGet(() -> {
-                    // Si la categoría no existe, crearla
+        Category category = categoryRepository.findByName(categoryName).orElseGet(() -> {
                     Category newCategory = new Category();
                     newCategory.setName(categoryName);
                     return categoryRepository.save(newCategory);
                 });
-    
-        // Construir el nuevo ingrediente con la categoría encontrada o creada
+
         Ingredient newIngredient = Ingredient.builder()
             .name(ingredientDto.getName())
             .weight(ingredientDto.getWeight())
