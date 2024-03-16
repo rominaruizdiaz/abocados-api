@@ -33,6 +33,7 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
         return recipes;
     }
 
+    @Override
     public Recipe getById(Long id) throws RecipeNotFoundException {
         return recipeRepository.findById(id)
             .orElseThrow(() -> new RecipeNotFoundException("Recipe not found with id: " + id));
@@ -42,6 +43,7 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
         return recipeRepository.findByName(name);
     }
 
+    @Override
     public Recipe save(RecipeDto recipeDto) {
 
         Recipe newRecipe = Recipe.builder()

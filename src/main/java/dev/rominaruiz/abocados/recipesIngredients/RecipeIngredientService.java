@@ -7,57 +7,69 @@ import org.springframework.stereotype.Service;
 
 import dev.rominaruiz.abocados.generics.IGenericEditService;
 import dev.rominaruiz.abocados.generics.IGenericGetService;
+import dev.rominaruiz.abocados.ingredients.Ingredient;
+import dev.rominaruiz.abocados.ingredients.IngredientNotFoundException;
+import dev.rominaruiz.abocados.ingredients.IngredientRepository;
 import dev.rominaruiz.abocados.recipes.Recipe;
 import dev.rominaruiz.abocados.recipes.RecipeNotFoundException;
 import dev.rominaruiz.abocados.recipes.RecipeRepository;
 
 @Service
-public class RecipeIngredientService implements IGenericGetService<RecipeIngredient>, IGenericEditService<CreateRecipeIngredientDto, RecipeIngredient> {
+public class RecipeIngredientService implements IGenericGetService<RecipeIngredient>, IGenericEditService<RecipeIngredientDto, RecipeIngredient> {
 
     private final RecipeIngredientRepository recipeIngredientRepository;
     private final RecipeRepository recipeRepository;
+    private final IngredientRepository ingredientRepository;
 
+
+    
     public RecipeIngredientService(RecipeIngredientRepository recipeIngredientRepository,
-            RecipeRepository recipeRepository) {
+            RecipeRepository recipeRepository, IngredientRepository ingredientRepository) {
         this.recipeIngredientRepository = recipeIngredientRepository;
         this.recipeRepository = recipeRepository;
+        this.ingredientRepository = ingredientRepository;
     }
-    
+
     public List<RecipeIngredient> getAll() {
         return recipeIngredientRepository.findAll();
     }
 
-    public Recipe addIngredientToRecipe(Long recipeId, CreateRecipeIngredientDto createRecipeIngredientDto) throws RecipeNotFoundException {
+    public Recipe addIngredientToRecipe(Long recipeId, RecipeIngredientDto recipeIngredientDto) throws RecipeNotFoundException, IngredientNotFoundException {
         Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
         if (optionalRecipe.isPresent()) {
             Recipe recipe = optionalRecipe.get();
             
-            RecipeIngredient newIngredient = new RecipeIngredient();
-            newIngredient.setIngredient(createRecipeIngredientDto.getIngredient());
-            newIngredient.setWeight(createRecipeIngredientDto.getWeight());
-            newIngredient.setUnit(createRecipeIngredientDto.getUnit());
-
-            recipe.getRecipeIngredients().add(newIngredient);
-        
-            return recipeRepository.save(recipe);
+            Optional<Ingredient> optionalIngredient = ingredientRepository.findById(recipeIngredientDto.getIngredientId());
+            if (optionalIngredient.isPresent()) {
+                Ingredient ingredient = optionalIngredient.get();
+                
+                RecipeIngredient newIngredient = new RecipeIngredient();
+                
+                newIngredient.setIngredient(ingredient);
+                newIngredient.setWeight(recipeIngredientDto.getWeight());
+                newIngredient.setUnit(recipeIngredientDto.getUnit());
+    
+                recipe.getRecipeIngredients().add(newIngredient);
+                
+                Recipe updatedRecipe = recipeRepository.save(recipe);
+                
+                return updatedRecipe;
+            } else {
+                throw new IngredientNotFoundException("Ingredient not found with id: " + recipeIngredientDto.getIngredientId());
+            }
         } else {
             throw new RecipeNotFoundException("Recipe not found with id: " + recipeId);
         }
     }
 
-    public Recipe removeIngredientFromRecipe(Long recipeId, Long ingredientId) throws RecipeNotFoundException, RecipeIngredientNotFoundException {
-        Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
-        if (optionalRecipe.isPresent()) {
-            Recipe recipe = optionalRecipe.get();
-            RecipeIngredient ingredientToRemove = recipe.getRecipeIngredients().stream()
-                    .filter(ingredient -> ingredient.getId().equals(ingredientId))
-                    .findFirst()
-                    .orElseThrow(() -> new RecipeIngredientNotFoundException("Ingredient not found with id: " + ingredientId));
-            recipe.getRecipeIngredients().remove(ingredientToRemove);
-            return recipeRepository.save(recipe);
-        } else {
-            throw new RecipeNotFoundException("Recipe not found with id: " + recipeId);
-        }
+    public Recipe removeIngredientFromRecipe(Long recipeIngredientId) throws RecipeIngredientNotFoundException {
+        RecipeIngredient ingredientToRemove = recipeIngredientRepository.findById(recipeIngredientId)
+                .orElseThrow(() -> new RecipeIngredientNotFoundException("RecipeIngredient not found with id: " + recipeIngredientId));
+    
+        recipeIngredientRepository.delete(ingredientToRemove);
+    
+        Recipe recipe = ingredientToRemove.getRecipe();
+        return recipeRepository.save(recipe);
     }
 
     public Recipe updateIngredientInRecipe(Long recipeId, Long ingredientId, RecipeIngredientDto recipeIngredientDto) throws RecipeNotFoundException, RecipeIngredientNotFoundException {
@@ -83,21 +95,44 @@ public class RecipeIngredientService implements IGenericGetService<RecipeIngredi
     }
 
     @Override
-    public RecipeIngredient save(CreateRecipeIngredientDto createRecipeIngredientDto) throws Exception {
+    public RecipeIngredient save(RecipeIngredientDto recipeIngredientDto) throws Exception {
         RecipeIngredient newRecipeIngredient = new RecipeIngredient();
-        newRecipeIngredient.setIngredient(createRecipeIngredientDto.getIngredient());
-        newRecipeIngredient.setWeight(createRecipeIngredientDto.getWeight());
-        newRecipeIngredient.setUnit(createRecipeIngredientDto.getUnit());
-        return recipeIngredientRepository.save(newRecipeIngredient);
+
+        Optional<Ingredient> optionalIngredient = ingredientRepository.findById(recipeIngredientDto.getIngredientId());
+        if (optionalIngredient.isPresent()) {
+            Ingredient ingredient = optionalIngredient.get();
+
+            newRecipeIngredient.setIngredient(ingredient);
+            newRecipeIngredient.setWeight(recipeIngredientDto.getWeight());
+            newRecipeIngredient.setUnit(recipeIngredientDto.getUnit());
+
+            return recipeIngredientRepository.save(newRecipeIngredient);
+        } else {
+            throw new IngredientNotFoundException("Ingredient not found with id: " + recipeIngredientDto.getIngredientId());
+        }
     }
 
-    public RecipeIngredient update(CreateRecipeIngredientDto createRecipeIngredientDto, Long id) throws RecipeIngredientNotFoundException {
-        RecipeIngredient recipeIngredient = recipeIngredientRepository.findById(id)
-                .orElseThrow(() -> new RecipeIngredientNotFoundException("RecipeIngredient not found with id: " + id));
-        recipeIngredient.setIngredient(createRecipeIngredientDto.getIngredient());
-        recipeIngredient.setWeight(createRecipeIngredientDto.getWeight());
-        recipeIngredient.setUnit(createRecipeIngredientDto.getUnit());
-        
-        return recipeIngredientRepository.save(recipeIngredient);
+    @Override
+    public RecipeIngredient update(RecipeIngredientDto recipeIngredientDto, Long id) throws RecipeIngredientNotFoundException {
+
+        Optional<RecipeIngredient> optionalRecipeIngredient = recipeIngredientRepository.findById(id);
+        if (optionalRecipeIngredient.isPresent()) {
+            RecipeIngredient recipeIngredient = optionalRecipeIngredient.get();
+
+            Optional<Ingredient> optionalIngredient = ingredientRepository.findById(recipeIngredientDto.getIngredientId());
+            if (optionalIngredient.isPresent()) {
+                Ingredient ingredient = optionalIngredient.get();
+
+                recipeIngredient.setIngredient(ingredient);
+                recipeIngredient.setWeight(recipeIngredientDto.getWeight());
+                recipeIngredient.setUnit(recipeIngredientDto.getUnit());
+
+                return recipeIngredientRepository.save(recipeIngredient);
+            } else {
+                throw new IngredientNotFoundException("Ingredient not found with id: " + recipeIngredientDto.getIngredientId());
+            }
+        } else {
+            throw new RecipeIngredientNotFoundException("RecipeIngredient not found with id: " + id);
+        }
     }
 }
