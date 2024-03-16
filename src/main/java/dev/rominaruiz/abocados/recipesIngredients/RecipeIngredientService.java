@@ -68,7 +68,6 @@ public class RecipeIngredientService implements IGenericGetService<RecipeIngredi
                     .filter(ingredient -> ingredient.getId().equals(ingredientId))
                     .findFirst()
                     .orElseThrow(() -> new RecipeIngredientNotFoundException("Ingredient not found with id: " + ingredientId));
-            existingIngredient.setIngredient(recipeIngredientDto.getIngredient());
             existingIngredient.setWeight(recipeIngredientDto.getWeight());
             existingIngredient.setUnit(recipeIngredientDto.getUnit());
             return recipeRepository.save(recipe);

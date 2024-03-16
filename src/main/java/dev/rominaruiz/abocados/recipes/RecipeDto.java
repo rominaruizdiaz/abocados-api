@@ -30,5 +30,6 @@ public class RecipeDto {
     private Double protein;
     private Double sodium;
     private Double potasio;
+    
     private List<RecipeIngredientDto> recipeIngredients;
 }
