@@ -22,10 +22,11 @@ import lombok.Setter;
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)@Column(name = "id_category")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_category")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "category_name")
     private String name;
     
 }

@@ -36,14 +36,20 @@ public class IngredientService implements IGenericGetService<Ingredient>, IGener
     }
     
     public Ingredient save(IngredientDto ingredientDto) throws Exception {
+        // Obtener el nombre de la categoría desde el DTO del ingrediente
         String categoryName = ingredientDto.getCategoryName();
-        
-        Category category = categoryRepository.findByName(categoryName).orElseGet(() -> {
-                    Category newCategory = new Category();
-                    newCategory.setName(categoryName);
-                    return categoryRepository.save(newCategory);
-                });
 
+        // Buscar si la categoría ya existe en la base de datos
+        Optional<Category> existingCategory = categoryRepository.findByName(categoryName);
+
+        // Crear una nueva categoría si no existe
+        Category category = existingCategory.orElseGet(() -> {
+            Category newCategory = new Category();
+            newCategory.setName(categoryName);
+            return categoryRepository.save(newCategory);
+        });
+
+        // Crear un nuevo objeto de ingrediente y establecer los valores desde el DTO
         Ingredient newIngredient = Ingredient.builder()
             .name(ingredientDto.getName())
             .weight(ingredientDto.getWeight())
@@ -56,12 +62,13 @@ public class IngredientService implements IGenericGetService<Ingredient>, IGener
             .carbohydrate(ingredientDto.getCarbohydrate())
             .sugar(ingredientDto.getSugar())
             .fiber(ingredientDto.getFiber())
-            .sodium(ingredientDto.getSodium())
             .protein(ingredientDto.getProtein())
+            .sodium(ingredientDto.getSodium())
             .potasio(ingredientDto.getPotasio())
-            .category(category)
+            .category(category) // Asignar la categoría al ingrediente
             .build();
         
+        // Guardar el nuevo ingrediente en la base de datos
         return repository.save(newIngredient);
     }
 

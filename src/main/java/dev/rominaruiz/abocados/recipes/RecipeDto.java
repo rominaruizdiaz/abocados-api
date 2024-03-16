@@ -1,5 +1,8 @@
 package dev.rominaruiz.abocados.recipes;
 
+import java.util.List;
+
+import dev.rominaruiz.abocados.recipesIngredients.RecipeIngredientDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,4 +30,5 @@ public class RecipeDto {
     private Double protein;
     private Double sodium;
     private Double potasio;
+    private List<RecipeIngredientDto> recipeIngredients;
 }

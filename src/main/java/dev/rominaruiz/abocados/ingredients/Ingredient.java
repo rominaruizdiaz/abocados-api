@@ -72,7 +72,6 @@ public class Ingredient {
     private Double potasio;
 
     @ManyToOne
-    @JoinColumn(name = "category_name", referencedColumnName = "name")
+    @JoinColumn(name = "category_id", referencedColumnName = "id_category")
     private Category category;
-
 }
