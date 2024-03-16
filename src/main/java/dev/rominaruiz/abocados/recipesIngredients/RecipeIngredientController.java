@@ -47,12 +47,12 @@ public class RecipeIngredientController {
         }
     }
 
-    @PutMapping("/{recipeId}/ingredient/{ingredientId}")
-    public ResponseEntity<Recipe> updateIngredientInRecipe(@PathVariable Long recipeId, @PathVariable Long ingredientId, @RequestBody RecipeIngredientDto recipeIngredientDto) {
+    @PutMapping("/{recipeIngredientId}")
+    public ResponseEntity<Recipe> updateIngredientInRecipe(@PathVariable Long recipeIngredientId, @RequestBody RecipeIngredientDto recipeIngredientDto) {
         try {
-            Recipe updatedRecipe = recipeIngredientService.updateIngredientInRecipe(recipeId, ingredientId, recipeIngredientDto);
+            Recipe updatedRecipe = recipeIngredientService.updateIngredientInRecipe(recipeIngredientId, recipeIngredientDto);
             return ResponseEntity.ok(updatedRecipe);
-        } catch (RecipeNotFoundException | RecipeIngredientNotFoundException e) {
+        } catch (RecipeIngredientNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }

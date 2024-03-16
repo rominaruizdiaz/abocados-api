@@ -72,20 +72,16 @@ public class RecipeIngredientService implements IGenericGetService<RecipeIngredi
         return recipeRepository.save(recipe);
     }
 
-    public Recipe updateIngredientInRecipe(Long recipeId, Long ingredientId, RecipeIngredientDto recipeIngredientDto) throws RecipeNotFoundException, RecipeIngredientNotFoundException {
-        Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
-        if (optionalRecipe.isPresent()) {
-            Recipe recipe = optionalRecipe.get();
-            RecipeIngredient existingIngredient = recipe.getRecipeIngredients().stream()
-                    .filter(ingredient -> ingredient.getId().equals(ingredientId))
-                    .findFirst()
-                    .orElseThrow(() -> new RecipeIngredientNotFoundException("Ingredient not found with id: " + ingredientId));
-            existingIngredient.setWeight(recipeIngredientDto.getWeight());
-            existingIngredient.setUnit(recipeIngredientDto.getUnit());
-            return recipeRepository.save(recipe);
-        } else {
-            throw new RecipeNotFoundException("Recipe not found with id: " + recipeId);
-        }
+    public Recipe updateIngredientInRecipe(Long ingredientId, RecipeIngredientDto recipeIngredientDto) throws RecipeIngredientNotFoundException {
+        RecipeIngredient existingIngredient = recipeIngredientRepository.findById(ingredientId)
+                .orElseThrow(() -> new RecipeIngredientNotFoundException("RecipeIngredient not found with id: " + ingredientId));
+    
+        existingIngredient.setWeight(recipeIngredientDto.getWeight());
+        existingIngredient.setUnit(recipeIngredientDto.getUnit());
+
+        recipeIngredientRepository.save(existingIngredient);
+
+        return existingIngredient.getRecipe();
     }
 
     @Override
