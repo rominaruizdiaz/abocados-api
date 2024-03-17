@@ -26,6 +26,7 @@ public class IngredientDto {
     private Double sodium;
     private Double potasio;
     private String categoryName;
+    private String image;
     
     public String getCategoryName() {
         return categoryName;

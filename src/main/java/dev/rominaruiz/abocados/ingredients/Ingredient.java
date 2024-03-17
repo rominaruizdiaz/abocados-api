@@ -71,6 +71,9 @@ public class Ingredient {
     @Column(name = "potasio")
     private Double potasio;
 
+    @Column(name = "image")
+    private String image;
+
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id_category")
     private Category category;

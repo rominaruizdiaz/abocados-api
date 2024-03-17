@@ -52,7 +52,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.DELETE, endpoint + "/recipesIngredients/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, endpoint + "/recipesIngredients/**").permitAll()
 
-                        // .requestMatchers(HttpMethod.POST, endpoint + "/images/**").permitAll()
+
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session
