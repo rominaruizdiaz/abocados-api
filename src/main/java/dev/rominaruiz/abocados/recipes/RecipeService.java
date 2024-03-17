@@ -52,17 +52,6 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
             .description(recipeDto.getDescription())
             .steps(recipeDto.getSteps())
             .preparationTime(recipeDto.getPreparationTime())
-            .calories(recipeDto.getCalories())
-            .fats(recipeDto.getFats())
-            .saturatedFat(recipeDto.getSaturatedFat())
-            .monoinsaturatedFat(recipeDto.getMonoinsaturatedFat())
-            .polinsaturatedFat(recipeDto.getPolinsaturatedFat())
-            .carbohydrate(recipeDto.getCarbohydrate())
-            .sugar(recipeDto.getSugar())
-            .fiber(recipeDto.getFiber())
-            .protein(recipeDto.getProtein())
-            .sodium(recipeDto.getSodium())
-            .potasio(recipeDto.getPotasio())
             .build();
 
 
@@ -111,17 +100,7 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
         recipe.setDescription(recipeDto.getDescription());
         recipe.setSteps(recipeDto.getSteps());
         recipe.setPreparationTime(recipeDto.getPreparationTime());
-        recipe.setCalories(recipeDto.getCalories());
-        recipe.setFats(recipeDto.getFats());
-        recipe.setMonoinsaturatedFat(recipeDto.getMonoinsaturatedFat());
-        recipe.setPolinsaturatedFat(recipeDto.getPolinsaturatedFat());
-        recipe.setCarbohydrate(recipeDto.getCarbohydrate());
-        recipe.setSugar(recipeDto.getSugar());
-        recipe.setFiber(recipeDto.getFiber());
-        recipe.setProtein(recipeDto.getProtein());
-        recipe.setSodium(recipeDto.getSodium());
-        recipe.setPotasio(recipeDto.getPotasio());
-
+        
         return recipeRepository.save(recipe);
     }
 
