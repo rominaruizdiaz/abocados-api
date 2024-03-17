@@ -2,7 +2,6 @@ package dev.rominaruiz.abocados.ingredients;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,18 +11,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
+import dev.rominaruiz.abocados.files.IStorageService;
 
 @Controller
 @RequestMapping(path = "/api/v1/ingredients")
 public class IngredientController {
     
     private final IngredientService service;
+    private final IStorageService storageService;
 
-    public IngredientController(IngredientService service) {
+
+
+    public IngredientController(IngredientService service, IStorageService storageService) {
         this.service = service;
+        this.storageService = storageService;
     }
 
     @GetMapping(path = "")
@@ -46,8 +48,10 @@ public class IngredientController {
 
     @PostMapping(path = "")
     public ResponseEntity<Ingredient> store(@RequestBody IngredientDto ingredientDto) throws Exception {
+        String imageUrl = storageService.store(ingredientDto.getImageFile());
+        ingredientDto.setImage(imageUrl);
         Ingredient ingredient = service.save(ingredientDto);
-        return ResponseEntity.status(201).body(ingredient);
+        return ResponseEntity.status(201).body(ingredient);    
     }
 
     @DeleteMapping(path = "/{id}")

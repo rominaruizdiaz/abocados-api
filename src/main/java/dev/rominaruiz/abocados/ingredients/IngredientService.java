@@ -7,20 +7,25 @@ import org.springframework.stereotype.Service;
 
 import dev.rominaruiz.abocados.categories.Category;
 import dev.rominaruiz.abocados.categories.CategoryRepository;
+import dev.rominaruiz.abocados.files.IStorageService;
 import dev.rominaruiz.abocados.generics.IGenericEditService;
 import dev.rominaruiz.abocados.generics.IGenericGetService;
+import io.micrometer.common.util.StringUtils;
 
 @Service
 public class IngredientService implements IGenericGetService<Ingredient>, IGenericEditService<IngredientDto, Ingredient> {
     
     private final IngredientRepository repository;
     private final CategoryRepository categoryRepository;
-
-    public IngredientService(IngredientRepository repository, CategoryRepository categoryRepository) {
+    private final IStorageService storageService;
+    
+    public IngredientService(IngredientRepository repository, CategoryRepository categoryRepository,
+            IStorageService storageService) {
         this.repository = repository;
         this.categoryRepository = categoryRepository;
+        this.storageService = storageService;
     }
-    
+
     public List<Ingredient> getAll(){
         List<Ingredient> ingredients = repository.findAll();
         return ingredients;
@@ -36,15 +41,21 @@ public class IngredientService implements IGenericGetService<Ingredient>, IGener
     }
     
     public Ingredient save(IngredientDto ingredientDto) throws Exception {
+
+        if (ingredientDto.getImageFile() != null && !ingredientDto.getImageFile().isEmpty()) {
+
+            String imageUrl = storageService.store(ingredientDto.getImageFile());
+            ingredientDto.setImage(imageUrl);
+        }
+
         String categoryName = ingredientDto.getCategoryName();
-
         Optional<Category> existingCategory = categoryRepository.findByName(categoryName);
-
         Category category = existingCategory.orElseGet(() -> {
             Category newCategory = new Category();
             newCategory.setName(categoryName);
             return categoryRepository.save(newCategory);
         });
+
 
         Ingredient newIngredient = Ingredient.builder()
             .name(ingredientDto.getName())
@@ -63,7 +74,11 @@ public class IngredientService implements IGenericGetService<Ingredient>, IGener
             .potasio(ingredientDto.getPotasio())
             .category(category)
             .build();
-        
+
+        if (!StringUtils.isEmpty(ingredientDto.getImage())) {
+            newIngredient.setImage(ingredientDto.getImage());
+        }
+
         return repository.save(newIngredient);
     }
 
