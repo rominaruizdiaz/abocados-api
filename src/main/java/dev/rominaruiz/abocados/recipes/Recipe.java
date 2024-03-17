@@ -56,6 +56,36 @@ public class Recipe {
     @Column(name = "Calories_per_portion")
     private Double caloriesPerPortion;
 
+    @Column(name = "fats")
+    private Double fats;
+
+    @Column(name = "saturated_fat")
+    private Double saturatedFat;
+
+    @Column(name = "monoinsaturated_fat")
+    private Double monoinsaturatedFat;
+    
+    @Column(name = "polinsaturated_fat")
+    private Double polinsaturatedFat;
+
+    @Column(name = "carbohydrate")
+    private Double carbohydrate;
+
+    @Column(name = "sugar")
+    private Double sugar;
+
+    @Column(name = "fiber")
+    private Double fiber;
+
+    @Column(name = "protein")
+    private Double protein;
+
+    @Column(name = "sodium")
+    private Double sodium;
+
+    @Column(name = "potasio")
+    private Double potasio;
+
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<RecipeIngredient> recipeIngredients;
@@ -75,4 +105,58 @@ public class Recipe {
             this.caloriesPerPortion = null;
         }
     }
+
+    public void calculateTotalNutritionalValues() {
+        double totalFats = 0.0;
+        double totalSaturatedFat = 0.0;
+        double totalMonoinsaturatedFat = 0.0;
+        double totalPolinsaturatedFat = 0.0;
+        double totalCarbohydrate = 0.0;
+        double totalSugar = 0.0;
+        double totalFiber = 0.0;
+        double totalProtein = 0.0;
+        double totalSodium = 0.0;
+        double totalPotasio = 0.0;
+    
+        for (RecipeIngredient recipeIngredient : recipeIngredients) {
+            totalFats += recipeIngredient.getFats();
+            totalSaturatedFat += recipeIngredient.getSaturatedFat();
+            totalMonoinsaturatedFat += recipeIngredient.getMonoinsaturatedFat();
+            totalPolinsaturatedFat += recipeIngredient.getPolinsaturatedFat();
+            totalCarbohydrate += recipeIngredient.getCarbohydrate();
+            totalSugar += recipeIngredient.getSugar();
+            totalFiber += recipeIngredient.getFiber();
+            totalProtein += recipeIngredient.getProtein();
+            totalSodium += recipeIngredient.getSodium();
+            totalPotasio += recipeIngredient.getPotasio();
+        }
+    
+        this.fats = totalFats;
+        this.saturatedFat = totalSaturatedFat;
+        this.monoinsaturatedFat = totalMonoinsaturatedFat;
+        this.polinsaturatedFat = totalPolinsaturatedFat;
+        this.carbohydrate = totalCarbohydrate;
+        this.sugar = totalSugar;
+        this.fiber = totalFiber;
+        this.protein = totalProtein;
+        this.sodium = totalSodium;
+        this.potasio = totalPotasio;
+    }
+    
+    public void calculateNutritionalValuesPerPortion() {
+        if (portions != null && portions > 0) {
+            double portionFactor = 1.0 / portions;
+            this.fats *= portionFactor;
+            this.saturatedFat *= portionFactor;
+            this.monoinsaturatedFat *= portionFactor;
+            this.polinsaturatedFat *= portionFactor;
+            this.carbohydrate *= portionFactor;
+            this.sugar *= portionFactor;
+            this.fiber *= portionFactor;
+            this.protein *= portionFactor;
+            this.sodium *= portionFactor;
+            this.potasio *= portionFactor;
+        }
+    }
+
 }

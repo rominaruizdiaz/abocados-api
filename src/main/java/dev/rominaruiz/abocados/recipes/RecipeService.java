@@ -28,11 +28,13 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
         this.ingredientRepository = ingredientRepository;
     }
 
-    public List<Recipe> getAll(){
+    public List<Recipe> getAll() {
         List<Recipe> recipes = recipeRepository.findAll();
         for (Recipe recipe : recipes) {
             recipe.calculateTotalCalories();
             recipe.calculateCaloriesPerPortion();
+            recipe.calculateTotalNutritionalValues();
+            recipe.calculateNutritionalValuesPerPortion();
         }
         return recipes;
     }
@@ -40,10 +42,12 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
     @Override
     public Recipe getById(Long id) throws RecipeNotFoundException {
         Recipe recipe = recipeRepository.findById(id)
-            .orElseThrow(() -> new RecipeNotFoundException("Recipe not found with id: " + id));
+                .orElseThrow(() -> new RecipeNotFoundException("Recipe not found with id: " + id));
         
         recipe.calculateTotalCalories();
         recipe.calculateCaloriesPerPortion();
+        recipe.calculateTotalNutritionalValues();
+        recipe.calculateNutritionalValuesPerPortion();
         
         return recipe;
     }
@@ -54,6 +58,8 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
             Recipe recipe = optionalRecipe.get();
             recipe.calculateTotalCalories();
             recipe.calculateCaloriesPerPortion();
+            recipe.calculateTotalNutritionalValues();
+            recipe.calculateNutritionalValuesPerPortion();
         }
         return optionalRecipe;
     }
@@ -98,6 +104,8 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
             
             savedRecipe.calculateTotalCalories();
             savedRecipe.calculateCaloriesPerPortion();
+            savedRecipe.calculateTotalNutritionalValues();
+            savedRecipe.calculateNutritionalValuesPerPortion();
         }
     
         return savedRecipe;
@@ -113,7 +121,7 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
     public Recipe update(RecipeDto recipeDto, Long id) throws RecipeNotFoundException {
         Recipe recipe = recipeRepository.findById(id)
             .orElseThrow(() -> new RecipeNotFoundException("Recipe not found with id: " + id));
-
+    
         recipe.setName(recipeDto.getName());
         recipe.setImageUrl(recipeDto.getImageUrl());
         recipe.setDescription(recipeDto.getDescription());
@@ -123,8 +131,9 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
         
         recipe.calculateTotalCalories();
         recipe.calculateCaloriesPerPortion();
-        return recipeRepository.save(recipe);
+        recipe.calculateTotalNutritionalValues();
+        recipe.calculateNutritionalValuesPerPortion();
         
+        return recipeRepository.save(recipe);
     }
-
 }

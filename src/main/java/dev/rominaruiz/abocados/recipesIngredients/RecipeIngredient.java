@@ -58,4 +58,75 @@ public class RecipeIngredient {
             return 0;
         }
     }
+
+    public Double getFats() {
+        if (ingredient != null) {
+            return ingredient.getFats();
+        }
+        return null;
+    }
+
+    public Double getSaturatedFat() {
+        if (ingredient != null) {
+            return ingredient.getSaturatedFat();
+        }
+        return null;
+    }
+
+    public Double getMonoinsaturatedFat() {
+        if (ingredient != null) {
+            return ingredient.getMonoinsaturatedFat();
+        }
+        return null;
+    }
+
+    public Double getPolinsaturatedFat() {
+        if (ingredient != null) {
+            return ingredient.getPolinsaturatedFat();
+        }
+        return null;
+    }
+
+    public Double getCarbohydrate() {
+        if (ingredient != null) {
+            return ingredient.getCarbohydrate();
+        }
+        return null;
+    }
+
+    public Double getSugar() {
+        if (ingredient != null) {
+            return ingredient.getSugar();
+        }
+        return null;
+    }
+
+    public Double getFiber() {
+        if (ingredient != null) {
+            return ingredient.getFiber();
+        }
+        return null;
+    }
+
+    public Double getProtein() {
+        if (ingredient != null) {
+            return ingredient.getProtein();
+        }
+        return null;
+    }
+
+    public Double getSodium() {
+        if (ingredient != null) {
+            return ingredient.getSodium();
+        }
+        return null;
+    }
+
+    public Double getPotasio() {
+        if (ingredient != null) {
+            return ingredient.getPotasio();
+        }
+        return null;
+    }
+    
 }
