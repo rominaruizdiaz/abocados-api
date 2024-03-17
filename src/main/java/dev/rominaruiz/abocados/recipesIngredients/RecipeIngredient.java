@@ -46,4 +46,16 @@ public class RecipeIngredient {
 
     @Column(name = "unit", length = 60)
     private String unit;
+
+    public double calculateCaloriesForWeight() {
+        if (ingredient != null) {
+
+            double caloriesPerUnit = ingredient.getCalories();
+
+            double totalCalories = (weight / 100) * caloriesPerUnit;
+            return totalCalories;
+        } else {
+            return 0;
+        }
+    }
 }

@@ -19,17 +19,9 @@ public class RecipeDto {
     private String description;
     private String steps;
     private String preparationTime;
-    private Double calories;
-    private Double fats;
-    private Double saturatedFat;
-    private Double monoinsaturatedFat;
-    private Double polinsaturatedFat;
-    private Double carbohydrate;
-    private Double sugar;
-    private Double fiber;
-    private Double protein;
-    private Double sodium;
-    private Double potasio;
+    private Double portions;
+    private Double totalCalories;
+    private Double caloriesPerPortion;
     
     private List<RecipeIngredientDto> recipeIngredients;
 }

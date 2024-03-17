@@ -30,39 +30,55 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
 
     public List<Recipe> getAll(){
         List<Recipe> recipes = recipeRepository.findAll();
+        for (Recipe recipe : recipes) {
+            recipe.calculateTotalCalories();
+            recipe.calculateCaloriesPerPortion();
+        }
         return recipes;
     }
 
     @Override
     public Recipe getById(Long id) throws RecipeNotFoundException {
-        return recipeRepository.findById(id)
+        Recipe recipe = recipeRepository.findById(id)
             .orElseThrow(() -> new RecipeNotFoundException("Recipe not found with id: " + id));
+        
+        recipe.calculateTotalCalories();
+        recipe.calculateCaloriesPerPortion();
+        
+        return recipe;
     }
 
     public Optional<Recipe> getByName(String name) {
-        return recipeRepository.findByName(name);
+        Optional<Recipe> optionalRecipe = recipeRepository.findByName(name);
+        if (optionalRecipe.isPresent()) {
+            Recipe recipe = optionalRecipe.get();
+            recipe.calculateTotalCalories();
+            recipe.calculateCaloriesPerPortion();
+        }
+        return optionalRecipe;
     }
 
     @Override
     public Recipe save(RecipeDto recipeDto) {
-
+    
         Recipe newRecipe = Recipe.builder()
             .name(recipeDto.getName())
             .imageUrl(recipeDto.getImageUrl())
             .description(recipeDto.getDescription())
             .steps(recipeDto.getSteps())
             .preparationTime(recipeDto.getPreparationTime())
+            .portions(recipeDto.getPortions())
             .build();
-
-
+    
+    
         Recipe savedRecipe = recipeRepository.save(newRecipe);
-
+    
         List<RecipeIngredientDto> recipeIngredientDtos = recipeDto.getRecipeIngredients();
         if (recipeIngredientDtos != null && !recipeIngredientDtos.isEmpty()) {
-
+    
             List<RecipeIngredient> recipeIngredients = new ArrayList<>();
             for (RecipeIngredientDto recipeIngredientDto : recipeIngredientDtos) {
-
+    
                 Long ingredientId = recipeIngredientDto.getIngredientId();
                 
                 Ingredient ingredient = ingredientRepository.findById(ingredientId)
@@ -76,11 +92,14 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
                     .build();
                 recipeIngredients.add(recipeIngredient);
             }
-
+    
             savedRecipe.setRecipeIngredients(recipeIngredients);
             recipeIngredientRepository.saveAll(recipeIngredients);
+            
+            savedRecipe.calculateTotalCalories();
+            savedRecipe.calculateCaloriesPerPortion();
         }
-
+    
         return savedRecipe;
     }
 
@@ -100,8 +119,12 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
         recipe.setDescription(recipeDto.getDescription());
         recipe.setSteps(recipeDto.getSteps());
         recipe.setPreparationTime(recipeDto.getPreparationTime());
+        recipe.setPortions(recipeDto.getPortions());
         
+        recipe.calculateTotalCalories();
+        recipe.calculateCaloriesPerPortion();
         return recipeRepository.save(recipe);
+        
     }
 
 }

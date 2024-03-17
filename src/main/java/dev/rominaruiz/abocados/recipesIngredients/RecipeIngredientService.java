@@ -53,6 +53,9 @@ public class RecipeIngredientService implements IGenericGetService<RecipeIngredi
                 
                 Recipe updatedRecipe = recipeRepository.save(recipe);
                 
+                updatedRecipe.calculateTotalCalories();
+                updatedRecipe.calculateCaloriesPerPortion();
+                
                 return updatedRecipe;
             } else {
                 throw new IngredientNotFoundException("Ingredient not found with id: " + recipeIngredientDto.getIngredientId());
@@ -69,8 +72,13 @@ public class RecipeIngredientService implements IGenericGetService<RecipeIngredi
         recipeIngredientRepository.delete(ingredientToRemove);
     
         Recipe recipe = ingredientToRemove.getRecipe();
+
+            recipe.calculateTotalCalories();
+            recipe.calculateCaloriesPerPortion();
+
         return recipeRepository.save(recipe);
     }
+
 
     public Recipe updateIngredientInRecipe(Long ingredientId, RecipeIngredientDto recipeIngredientDto) throws RecipeIngredientNotFoundException {
         RecipeIngredient existingIngredient = recipeIngredientRepository.findById(ingredientId)
@@ -81,7 +89,12 @@ public class RecipeIngredientService implements IGenericGetService<RecipeIngredi
 
         recipeIngredientRepository.save(existingIngredient);
 
-        return existingIngredient.getRecipe();
+        Recipe recipe = existingIngredient.getRecipe();
+
+            recipe.calculateTotalCalories();
+            recipe.calculateCaloriesPerPortion();
+            
+        return recipeRepository.save(recipe);
     }
 
     @Override

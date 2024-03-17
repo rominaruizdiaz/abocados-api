@@ -47,41 +47,32 @@ public class Recipe {
     @Column(name = "preparation_time")
     private String preparationTime;
 
-    @Column(name = "calories")
-    private Double calories;
+    @Column(name = "portions")
+    private Double portions;
 
-    @Column(name = "fats")
-    private Double fats;
+    @Column(name = "total_calories")
+    private Double totalCalories;
 
-    @Column(name = "saturated_fat")
-    private Double saturatedFat;
-
-    @Column(name = "monoinsaturated_fat")
-    private Double monoinsaturatedFat;
-    
-    @Column(name = "polinsaturated_fat")
-    private Double polinsaturatedFat;
-
-    @Column(name = "carbohydrate")
-    private Double carbohydrate;
-
-    @Column(name = "sugar")
-    private Double sugar;
-
-    @Column(name = "fiber")
-    private Double fiber;
-
-    @Column(name = "protein")
-    private Double protein;
-
-    @Column(name = "sodium")
-    private Double sodium;
-
-    @Column(name = "potasio")
-    private Double potasio;
+    @Column(name = "Calories_per_portion")
+    private Double caloriesPerPortion;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<RecipeIngredient> recipeIngredients;
 
+    public void calculateTotalCalories() {
+        double totalCalories = 0.0;
+        for (RecipeIngredient recipeIngredient : recipeIngredients) {
+            totalCalories += recipeIngredient.calculateCaloriesForWeight();
+        }
+        this.totalCalories = totalCalories;
+    }
+
+    public void calculateCaloriesPerPortion() {
+        if (portions != null && portions > 0 && totalCalories != null) {
+            this.caloriesPerPortion = totalCalories / portions;
+        } else {
+            this.caloriesPerPortion = null;
+        }
+    }
 }

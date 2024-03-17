@@ -50,7 +50,6 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, endpoint + "/recipesIngredients").permitAll()
                         .requestMatchers(HttpMethod.POST, endpoint + "/recipesIngredients/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, endpoint + "/recipesIngredients/**").permitAll()
-                        
                         .requestMatchers(HttpMethod.PUT, endpoint + "/recipesIngredients/**").permitAll()
 
                         // .requestMatchers(HttpMethod.POST, endpoint + "/images/**").permitAll()
