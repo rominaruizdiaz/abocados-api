@@ -1,16 +1,20 @@
 package dev.rominaruiz.abocados.recipes;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import dev.rominaruiz.abocados.recipesIngredients.RecipeIngredient;
+import dev.rominaruiz.abocados.users.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -86,9 +90,17 @@ public class Recipe {
     @Column(name = "potasio")
     private Double potasio;
 
+    @Column(name = "creation_time")
+    private LocalDateTime creationTime;
+
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<RecipeIngredient> recipeIngredients;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
     public void calculateTotalCalories() {
         double totalCalories = 0.0;

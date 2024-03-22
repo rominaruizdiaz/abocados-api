@@ -1,5 +1,6 @@
 package dev.rominaruiz.abocados.recipes;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -67,6 +68,8 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
     @Override
     public Recipe save(RecipeDto recipeDto) {
     
+        LocalDateTime currentTime = LocalDateTime.now();
+        
         Recipe newRecipe = Recipe.builder()
             .name(recipeDto.getName())
             .imageUrl(recipeDto.getImageUrl())
@@ -74,6 +77,7 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
             .steps(recipeDto.getSteps())
             .preparationTime(recipeDto.getPreparationTime())
             .portions(recipeDto.getPortions())
+            .creationTime(currentTime)
             .build();
     
     

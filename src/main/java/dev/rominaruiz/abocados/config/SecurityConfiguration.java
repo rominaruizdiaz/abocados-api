@@ -10,6 +10,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
@@ -52,6 +53,10 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.DELETE, endpoint + "/recipesIngredients/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, endpoint + "/recipesIngredients/**").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, endpoint + "/login").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, endpoint + "/users/register").permitAll()
+                        .requestMatchers(HttpMethod.GET, endpoint + "/users").permitAll()
+
                         // .requestMatchers(HttpMethod.POST, endpoint + "/images/**").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
@@ -74,5 +79,10 @@ public class SecurityConfiguration {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
+    @Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+	}
 
 }
