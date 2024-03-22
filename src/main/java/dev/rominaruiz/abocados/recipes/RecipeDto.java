@@ -22,6 +22,9 @@ public class RecipeDto {
     private Double portions;
     private Double totalCalories;
     private Double caloriesPerPortion;
+    private Long userId;
+
+    private String creationTime;
     
     private List<RecipeIngredientDto> recipeIngredients;
 }

@@ -1,3 +1,15 @@
+-- Insertar roles
+INSERT INTO roles (name) VALUES ('ROLE_USER');
+INSERT INTO roles (name) VALUES ('ROLE_ADMIN');
+
+-- Insertar usuarios
+INSERT INTO users (username, email, password) VALUES ('usuario1', 'usuario1@example.com', '$2a$12$2af73SHe24gbltJ9OZbzO.p0HRZYVT0jjsBY3mTQvzdwrMBH5l3qW');
+INSERT INTO users (username, email, password) VALUES ('usuario2', 'usuario2@example.com', '$2a$12$g7KXe0vnMumRocZca1a7seDq2oJYqw6WFO.vVjyzQo40mQQD93B6S');
+
+-- Asignar roles a usuarios
+INSERT INTO role_users (user_id, role_id) VALUES (1, 1);
+INSERT INTO role_users (user_id, role_id) VALUES (2, 2); 
+
 -- Insertar algunas categorías
 INSERT INTO categories (category_name) VALUES 
 ('Frutas'),
