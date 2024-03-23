@@ -1,7 +1,5 @@
 package dev.rominaruiz.abocados.ingredients;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,14 +26,9 @@ public class IngredientDto {
     private Double sodium;
     private Double potasio;
     private String categoryName;
-    private MultipartFile imageFile;
-    private String image;
     
     public String getCategoryName() {
         return categoryName;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
 }

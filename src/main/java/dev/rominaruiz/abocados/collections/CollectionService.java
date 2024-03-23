@@ -20,7 +20,7 @@ public class CollectionService {
     public Collection createCollection(CollectionDto collectionDto) throws Exception {
         String collectionName = collectionDto.getName();
         if (collectionRepository.findByName(collectionName).isPresent()) {
-            throw new Exception("Category with name " + collectionName + " already exists");
+            throw new Exception("Collection with name " + collectionName + " already exists");
         }
 
         LocalDateTime currentTime = LocalDateTime.now();

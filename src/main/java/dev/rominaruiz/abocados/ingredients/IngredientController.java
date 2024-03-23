@@ -19,13 +19,9 @@ import dev.rominaruiz.abocados.files.IStorageService;
 public class IngredientController {
     
     private final IngredientService service;
-    private final IStorageService storageService;
-
-
 
     public IngredientController(IngredientService service, IStorageService storageService) {
         this.service = service;
-        this.storageService = storageService;
     }
 
     @GetMapping(path = "")
@@ -48,8 +44,6 @@ public class IngredientController {
 
     @PostMapping(path = "")
     public ResponseEntity<Ingredient> store(@RequestBody IngredientDto ingredientDto) throws Exception {
-        String imageUrl = storageService.store(ingredientDto.getImageFile());
-        ingredientDto.setImage(imageUrl);
         Ingredient ingredient = service.save(ingredientDto);
         return ResponseEntity.status(201).body(ingredient);    
     }

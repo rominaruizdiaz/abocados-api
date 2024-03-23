@@ -6,7 +6,6 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import dev.rominaruiz.abocados.categories.Category;
 import dev.rominaruiz.abocados.collections.Collection;
 import dev.rominaruiz.abocados.recipesIngredients.RecipeIngredient;
 import dev.rominaruiz.abocados.users.User;
