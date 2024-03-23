@@ -23,8 +23,13 @@ public class RecipeDto {
     private Double totalCalories;
     private Double caloriesPerPortion;
     private Long userId;
+    private String collectionName;
 
     private String creationTime;
     
     private List<RecipeIngredientDto> recipeIngredients;
+
+    public String getCollectionName() {
+        return collectionName;
+    }
 }

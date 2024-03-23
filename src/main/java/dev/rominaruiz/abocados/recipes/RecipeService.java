@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import dev.rominaruiz.abocados.collections.Collection;
+import dev.rominaruiz.abocados.collections.CollectionRepository;
 import dev.rominaruiz.abocados.generics.IGenericEditService;
 import dev.rominaruiz.abocados.generics.IGenericGetService;
 import dev.rominaruiz.abocados.ingredients.Ingredient;
@@ -20,12 +22,16 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
     
     private final RecipeRepository recipeRepository;
     private final RecipeIngredientRepository recipeIngredientRepository;
+    private final CollectionRepository collectionRepository;
     private final IngredientRepository ingredientRepository;
 
+
+
     public RecipeService(RecipeRepository recipeRepository, RecipeIngredientRepository recipeIngredientRepository,
-            IngredientRepository ingredientRepository) {
+            CollectionRepository collectionRepository, IngredientRepository ingredientRepository) {
         this.recipeRepository = recipeRepository;
         this.recipeIngredientRepository = recipeIngredientRepository;
+        this.collectionRepository = collectionRepository;
         this.ingredientRepository = ingredientRepository;
     }
 
@@ -69,6 +75,15 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
     public Recipe save(RecipeDto recipeDto) {
     
         LocalDateTime currentTime = LocalDateTime.now();
+
+        String collectionName = recipeDto.getCollectionName();
+        Optional<Collection> existingCollection = collectionRepository.findByName(collectionName);
+        Collection collection = existingCollection.orElseGet(() -> {
+            Collection newCollection = new Collection();
+            newCollection.setName(collectionName);
+            newCollection.setCreationTime(LocalDateTime.now());
+            return collectionRepository.save(newCollection);
+        });
         
         Recipe newRecipe = Recipe.builder()
             .name(recipeDto.getName())
@@ -78,6 +93,7 @@ public class RecipeService implements IGenericGetService<Recipe>, IGenericEditSe
             .preparationTime(recipeDto.getPreparationTime())
             .portions(recipeDto.getPortions())
             .creationTime(currentTime)
+            .collection(collection)
             .build();
     
     

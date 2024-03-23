@@ -52,6 +52,8 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, endpoint + "/recipesIngredients/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, endpoint + "/recipesIngredients/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, endpoint + "/recipesIngredients/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, endpoint + "/collections").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, endpoint + "/collections/**").permitAll()
 
                         .requestMatchers(HttpMethod.POST, endpoint + "/images").permitAll()
                         .requestMatchers(HttpMethod.GET, endpoint + "/login").hasAnyRole("USER", "ADMIN")

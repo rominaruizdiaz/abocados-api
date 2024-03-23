@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import dev.rominaruiz.abocados.categories.Category;
+import dev.rominaruiz.abocados.collections.Collection;
 import dev.rominaruiz.abocados.recipesIngredients.RecipeIngredient;
 import dev.rominaruiz.abocados.users.User;
 import jakarta.persistence.CascadeType;
@@ -96,6 +98,10 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<RecipeIngredient> recipeIngredients;
+
+    @ManyToOne
+    @JoinColumn(name = "collection_id", referencedColumnName = "id_collection")
+    private Collection collection;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -17,6 +17,13 @@ INSERT INTO categories (category_name) VALUES
 ('Carnes'),
 ('Lácteos');
 
+-- Insertar algunas colecciones
+INSERT INTO collections (collection_name) VALUES 
+('Platos principales de navidad'),
+('Dia del padre'),
+('Pascua'),
+('Para los mas pequeños');
+
 -- Insertar algunos ingredientes
 INSERT INTO ingredients (name, weight, unit, calories, fats, saturated_fat, monoinsaturated_fat, polinsaturated_fat, carbohydrate, sugar, fiber, protein, sodium, potasio, category_id) 
 VALUES
