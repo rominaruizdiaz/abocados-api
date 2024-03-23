@@ -18,7 +18,7 @@ public class RecipeDto {
     private String imageUrl;
     private String description;
     private String steps;
-    private String preparationTime;
+    private Long preparationTime;
     private Double portions;
     private Double totalCalories;
     private Double caloriesPerPortion;

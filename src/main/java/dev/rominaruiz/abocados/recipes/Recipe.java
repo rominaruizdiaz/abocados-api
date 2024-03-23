@@ -3,6 +3,7 @@ package dev.rominaruiz.abocados.recipes;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import dev.rominaruiz.abocados.categories.Category;
@@ -51,7 +52,7 @@ public class Recipe {
     private String steps;
 
     @Column(name = "preparation_time")
-    private String preparationTime;
+    private Long preparationTime;
 
     @Column(name = "portions")
     private Double portions;
@@ -93,6 +94,7 @@ public class Recipe {
     private Double potasio;
 
     @Column(name = "creation_time")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime creationTime;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
