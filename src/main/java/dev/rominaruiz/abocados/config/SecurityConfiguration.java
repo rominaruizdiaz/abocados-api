@@ -33,7 +33,8 @@ public class SecurityConfiguration {
                 .formLogin(form -> form.disable())
                 .logout(out -> out
                         .logoutUrl(endpoint + "/logout")
-                        .deleteCookies("JSESSIONID"))
+                        .deleteCookies("JSESSIONID")
+                        .permitAll())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                         .requestMatchers(HttpMethod.GET, endpoint + "/ingredients/**").permitAll()
